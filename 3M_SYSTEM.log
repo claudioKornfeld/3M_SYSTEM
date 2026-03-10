@@ -1,0 +1,320 @@
+2026-03-05 21:14:52  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-05 21:14:55  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-05 21:14:55  INFO       ✔ T_3M_PO_HEADER: creada
+2026-03-05 21:14:55  INFO       ✔ T_3M_PO_DETAIL: creada
+2026-03-05 21:14:55  ERROR      ✘ Error al crear T_3M_INVOICE_HEADER: ('42000', '[42000] [Microsoft][Controlador ODBC Microsoft Access] Error de sintaxis en la definición del campo. (-3553) (SQLExecDirectW)')
+2026-03-05 21:14:55  INFO       ✔ Conexión cerrada
+2026-03-05 21:19:56  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-05 21:19:57  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-05 21:19:57  INFO       ℹ  T_3M_PO_HEADER: ya existe (0 registros)
+2026-03-05 21:19:57  INFO       ℹ  T_3M_PO_DETAIL: ya existe (0 registros)
+2026-03-05 21:19:57  ERROR      ✘ Error al crear T_3M_INVOICE_HEADER: ('42000', '[42000] [Microsoft][Controlador ODBC Microsoft Access] Error de sintaxis en la definición del campo. (-3553) (SQLExecDirectW)')
+2026-03-05 21:19:57  INFO       ✔ Conexión cerrada
+2026-03-05 21:21:30  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-05 21:21:30  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-05 21:21:30  INFO       ℹ  T_3M_PO_HEADER: ya existe (0 registros)
+2026-03-05 21:21:30  INFO       ℹ  T_3M_PO_DETAIL: ya existe (0 registros)
+2026-03-05 21:21:30  ERROR      ✘ Error al crear T_3M_INVOICE_HEADER: ('42000', '[42000] [Microsoft][Controlador ODBC Microsoft Access] Error de sintaxis en la definición del campo. (-3553) (SQLExecDirectW)')
+2026-03-05 21:21:30  INFO       ✔ Conexión cerrada
+2026-03-05 21:22:58  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-05 21:22:58  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-05 21:22:58  INFO       ℹ  T_3M_PO_HEADER: ya existe (0 registros)
+2026-03-05 21:22:58  INFO       ℹ  T_3M_PO_DETAIL: ya existe (0 registros)
+2026-03-05 21:22:58  INFO       ✔ T_3M_INVOICE_HEADER: creada
+2026-03-05 21:22:58  INFO       ✔ T_3M_INVOICE_DETAIL: creada
+2026-03-05 21:22:58  INFO       ✔ T_3M_PLIST_HEADER: creada
+2026-03-05 21:22:58  INFO       ✔ T_3M_PLIST_DETAIL: creada
+2026-03-05 21:22:58  INFO       ✔ T_GECOM_FI: creada
+2026-03-05 21:22:58  INFO       ✔ T_GECOM_FI_DETAIL: creada
+2026-03-05 21:22:58  INFO       ✔ T_GECOM_RE: creada
+2026-03-05 21:22:58  INFO       ✔ T_GECOM_RE_DETAIL: creada
+2026-03-05 21:22:58  INFO     
+2026-03-05 21:22:58  INFO       Tablas creadas:    ['T_3M_INVOICE_HEADER', 'T_3M_INVOICE_DETAIL', 'T_3M_PLIST_HEADER', 'T_3M_PLIST_DETAIL', 'T_GECOM_FI', 'T_GECOM_FI_DETAIL', 'T_GECOM_RE', 'T_GECOM_RE_DETAIL']
+2026-03-05 21:22:58  INFO       Tablas existentes: ['T_3M_PO_HEADER', 'T_3M_PO_DETAIL']
+2026-03-05 21:22:59  INFO       ✔ Conexión cerrada
+2026-03-05 21:26:58  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-05 21:26:58  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-05 21:26:59  ERROR      ✘ Error ejecutando comando: ('42000', '[42000] [Microsoft][Controlador ODBC Microsoft Access] Error de sintaxis en la instrucción INSERT INTO. (-3502) (SQLExecDirectW)')
+  SQL: 
+            INSERT INTO [T_3M_INVOICE_HEADER]
+                (invoice_nbr, invoice_6dig, po_number, invoice_date, order_date,
+                 shipment_date, payment_terms, payment_due_date, carrier,
+                 bill_of_lading, delivery_nbr,
+                 ship_to_account, ship_to_name, ship_to_address,
+                 bill_to_account, bill_to_name, bill_to_address,
+                 incoterms, ship_from, shipment_nbr, tracking_nbrs,
+                 invoice_value, invoice_total, currency, fecha_carga, archivo_origen)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        
+2026-03-05 21:26:59  INFO       ✔ Conexión cerrada
+2026-03-05 21:27:55  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-05 21:27:56  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-05 21:27:56  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-05 21:27:56  INFO       ✔ Conexión cerrada
+2026-03-05 21:28:47  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-05 21:28:48  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-05 21:28:48  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-05 21:28:48  INFO       ✔ Conexión cerrada
+2026-03-06 11:06:43  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:06:49  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:06:51  ERROR      ✘ Error ejecutando comando: ('42000', '[42000] [Microsoft][Controlador ODBC Microsoft Access] Error de sintaxis en la instrucción INSERT INTO. (-3502) (SQLExecDirectW)')
+  SQL: 
+            INSERT INTO [T_3M_INVOICE_HEADER]
+                (invoice_nbr, invoice_6dig, po_number, invoice_date, order_date,
+                 shipment_date, payment_terms, payment_due_date, carrier,
+                 bill_of_lading, delivery_nbr,
+                 ship_to_account, ship_to_name, ship_to_address,
+                 bill_to_account, bill_to_name, bill_to_address,
+                 incoterms, ship_from, shipment_nbr, tracking_nbrs,
+                 invoice_value, invoice_total, currency, fecha_carga, archivo_origen)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        
+2026-03-06 11:06:52  INFO       ✔ Conexión cerrada
+2026-03-06 11:09:38  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:09:38  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:09:39  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:09:39  INFO       ✔ Conexión cerrada
+2026-03-06 11:19:08  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:19:08  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:19:09  INFO       ✔ Conexión cerrada
+2026-03-06 11:21:11  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:21:12  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:21:12  INFO       ℹ Invoice 9437815605 ya existe, saltando.
+2026-03-06 11:21:12  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:21:12  INFO       ✔ Conexión cerrada
+2026-03-06 11:21:36  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:21:37  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:21:37  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:21:37  INFO       ✔ Conexión cerrada
+2026-03-06 11:22:24  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:22:25  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:22:25  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:22:26  INFO       ✔ Conexión cerrada
+2026-03-06 11:22:49  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:22:49  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:22:50  INFO       ℹ PO '204' ya existe, saltando.
+2026-03-06 11:22:50  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:22:50  INFO       ✔ Conexión cerrada
+2026-03-06 11:42:34  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:42:35  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:42:35  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-06 11:42:35  INFO       ✔ Conexión cerrada
+2026-03-06 11:44:02  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:44:03  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:44:04  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-06 11:44:04  INFO       ✔ Conexión cerrada
+2026-03-06 11:44:32  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:44:33  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:44:33  INFO       ℹ Invoice 9434700318 ya existe, saltando.
+2026-03-06 11:44:33  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:44:34  INFO       ✔ Conexión cerrada
+2026-03-06 11:45:22  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:45:23  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:45:23  WARNING    ⚠ Invoice sin invoice_nbr, saltando.
+2026-03-06 11:45:23  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:45:23  INFO       ✔ Conexión cerrada
+2026-03-06 11:50:09  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:50:09  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:50:09  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-06 11:50:10  INFO       ✔ Conexión cerrada
+2026-03-06 11:52:57  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-06 11:52:57  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-06 11:52:57  INFO       ✔ Conexión cerrada
+2026-03-08 13:29:47  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:29:49  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:29:50  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 13:29:51  INFO       ✔ Conexión cerrada
+2026-03-08 13:30:14  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:30:14  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:30:15  INFO       ℹ Invoice 9437815605 ya existe, saltando.
+2026-03-08 13:30:15  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 13:30:15  INFO       ✔ Conexión cerrada
+2026-03-08 13:30:29  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:30:29  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:30:30  INFO       ℹ PList 8112297327 ya existe, saltando.
+2026-03-08 13:30:30  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 13:30:30  INFO       ✔ Conexión cerrada
+2026-03-08 13:30:40  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:30:40  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:30:41  INFO       ℹ PO '204' ya existe, saltando.
+2026-03-08 13:30:41  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 13:30:42  INFO       ✔ Conexión cerrada
+2026-03-08 13:31:15  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:31:15  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:31:16  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 13:31:17  INFO       ✔ Conexión cerrada
+2026-03-08 13:31:45  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:31:46  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:31:48  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 13:31:48  INFO       ✔ Conexión cerrada
+2026-03-08 13:32:05  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:32:05  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:32:06  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 13:32:06  INFO       ✔ Conexión cerrada
+2026-03-08 13:32:23  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:32:24  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:32:24  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 13:32:25  INFO       ✔ Conexión cerrada
+2026-03-08 13:34:44  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 13:34:44  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 13:34:45  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 13:34:45  INFO       ✔ Conexión cerrada
+2026-03-08 19:24:53  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 19:24:55  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 19:24:55  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 19:24:55  INFO       ✔ Conexión cerrada
+2026-03-08 19:33:40  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 19:33:41  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 19:33:41  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 19:33:41  INFO       ✔ Conexión cerrada
+2026-03-08 19:34:13  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 19:34:14  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 19:34:14  INFO       ℹ Invoice 9436606992 ya existe, saltando.
+2026-03-08 19:34:14  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 19:34:14  INFO       ✔ Conexión cerrada
+2026-03-08 19:35:05  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 19:35:06  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 19:35:06  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 19:35:07  INFO       ✔ Conexión cerrada
+2026-03-08 19:43:18  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 19:43:19  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 19:43:19  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 19:43:19  INFO       ✔ Conexión cerrada
+2026-03-08 21:50:50  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:50:50  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:50:52  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 21:50:52  INFO       ✔ Conexión cerrada
+2026-03-08 21:51:10  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:51:11  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:51:11  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 21:51:11  INFO       ✔ Conexión cerrada
+2026-03-08 21:51:33  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:51:34  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:51:35  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 21:51:35  INFO       ✔ Conexión cerrada
+2026-03-08 21:52:07  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:52:07  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:52:08  WARNING    ⚠ Invoice sin invoice_nbr, saltando.
+2026-03-08 21:52:08  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 21:52:08  INFO       ✔ Conexión cerrada
+2026-03-08 21:56:59  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:57:00  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:57:01  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 21:57:01  INFO       ✔ Conexión cerrada
+2026-03-08 21:57:12  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:57:12  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:57:13  INFO       ✔ Enlace entre documentos: 2 relaciones actualizadas
+2026-03-08 21:57:13  INFO       ✔ Conexión cerrada
+2026-03-08 21:57:23  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:57:23  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:57:24  INFO       ✔ Enlace entre documentos: 2 relaciones actualizadas
+2026-03-08 21:57:24  INFO       ✔ Conexión cerrada
+2026-03-08 21:57:38  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 21:57:38  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 21:57:39  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 21:57:39  INFO       ✔ Conexión cerrada
+2026-03-08 22:05:20  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:05:21  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:05:23  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 22:05:23  INFO       ✔ Conexión cerrada
+2026-03-08 22:09:29  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:09:30  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:09:31  INFO       ℹ Invoice 9434700320 ya existe, saltando.
+2026-03-08 22:09:31  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-08 22:09:31  INFO       ✔ Conexión cerrada
+2026-03-08 22:10:27  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:10:28  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:10:28  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:10:28  INFO       ✔ Conexión cerrada
+2026-03-08 22:10:39  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:10:40  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:10:40  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:10:40  INFO       ✔ Conexión cerrada
+2026-03-08 22:10:50  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:10:50  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:10:51  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:10:51  INFO       ✔ Conexión cerrada
+2026-03-08 22:11:02  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:11:03  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:11:03  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:11:03  INFO       ✔ Conexión cerrada
+2026-03-08 22:11:24  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:11:25  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:11:27  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:11:27  INFO       ✔ Conexión cerrada
+2026-03-08 22:11:38  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:11:38  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:11:39  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:11:39  INFO       ✔ Conexión cerrada
+2026-03-08 22:12:01  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:12:02  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:12:03  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:12:03  INFO       ✔ Conexión cerrada
+2026-03-08 22:12:16  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:12:17  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:12:17  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:12:17  INFO       ✔ Conexión cerrada
+2026-03-08 22:12:27  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-08 22:12:28  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-08 22:12:28  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-08 22:12:28  INFO       ✔ Conexión cerrada
+2026-03-09 16:38:26  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:38:27  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:38:28  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-09 16:38:29  INFO       ✔ Conexión cerrada
+2026-03-09 16:38:54  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:38:55  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:38:57  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-09 16:38:58  INFO       ✔ Conexión cerrada
+2026-03-09 16:39:08  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:39:08  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:39:10  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-09 16:39:10  INFO       ✔ Conexión cerrada
+2026-03-09 16:39:22  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:39:22  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:39:23  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-09 16:39:23  INFO       ✔ Conexión cerrada
+2026-03-09 16:39:36  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:39:36  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:39:37  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-09 16:39:37  INFO       ✔ Conexión cerrada
+2026-03-09 16:40:01  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:40:01  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:40:03  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-09 16:40:03  INFO       ✔ Conexión cerrada
+2026-03-09 16:40:15  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:40:16  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:40:16  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-09 16:40:16  INFO       ✔ Conexión cerrada
+2026-03-09 16:40:36  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:40:37  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:40:38  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-09 16:40:38  INFO       ✔ Conexión cerrada
+2026-03-09 16:41:01  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:41:02  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:41:04  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-09 16:41:04  INFO       ✔ Conexión cerrada
+2026-03-09 16:41:26  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:41:27  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:41:29  INFO       ✔ Enlace entre documentos: 1 relaciones actualizadas
+2026-03-09 16:41:29  INFO       ✔ Conexión cerrada
+2026-03-09 16:41:40  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-09 16:41:41  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-09 16:41:43  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-09 16:41:43  INFO       ✔ Conexión cerrada
+2026-03-10 11:42:29  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-10 11:42:34  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-10 11:42:38  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-10 11:42:38  INFO       ✔ Conexión cerrada
+2026-03-10 11:42:51  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-10 11:42:51  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-10 11:42:54  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-10 11:42:54  INFO       ✔ Conexión cerrada
+2026-03-10 11:47:26  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-10 11:47:27  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-10 11:47:29  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-10 11:47:29  INFO       ✔ Conexión cerrada
+2026-03-10 11:47:39  INFO     Conectando a: PO_DataBase.accdb ...
+2026-03-10 11:47:39  INFO       ✔ Conexión establecida: PO_DataBase.accdb
+2026-03-10 11:47:41  INFO       ✔ Enlace entre documentos: 0 relaciones actualizadas
+2026-03-10 11:47:41  INFO       ✔ Conexión cerrada
