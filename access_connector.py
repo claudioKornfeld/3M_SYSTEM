@@ -97,6 +97,7 @@ TABLAS_3M = {
     'fi_det':      'T_GECOM_FI_DETAIL',
     're_hdr':      'T_GECOM_RE',
     're_det':      'T_GECOM_RE_DETAIL',
+    'aduana':      'T_ADUANA_DESPACHO',
 }
 
 # ---------------------------------------------------------------------------
@@ -303,6 +304,29 @@ DDL_3M = [
             [codigo_lilis]  TEXT(10),
             [descripcion]   TEXT(200),
             [cantidad]      DOUBLE
+        )
+        """
+    ),
+    (
+        'T_ADUANA_DESPACHO',
+        """
+        CREATE TABLE T_ADUANA_DESPACHO (
+            [id]                  COUNTER      PRIMARY KEY,
+            [nr_despacho]         TEXT(30)     ,
+            [oficializacion]      TEXT(12),
+            [agente_transporte]   TEXT(80),
+            [vendedor]            TEXT(80),
+            [fecha_arribo]        TEXT(12),
+            [embalaje]            TEXT(20),
+            [total_bultos]        INTEGER,
+            [peso_bruto]          DOUBLE,
+            [cond_venta]          TEXT(10),
+            [fob_total]           DOUBLE,
+            [divisa]              TEXT(5),
+            [flete_total]         DOUBLE,
+            [info_complementaria] MEMO,
+            [fecha_carga]         TEXT(22),
+            [archivo_origen]      TEXT(100)
         )
         """
     ),
@@ -702,6 +726,41 @@ class AccessConnector:
     # ------------------------------------------------------------------ #
     # ENLAZAR DOCUMENTOS (re-run seguro, idempotente)
     # ------------------------------------------------------------------ #
+
+    def insertar_aduana(self, d: dict) -> bool:
+        """
+        Inserta un registro en T_ADUANA_DESPACHO.
+        Clave de unicidad: nr_despacho.
+        Retorna True si insertó, False si ya existía.
+        """
+        if not d.get('nr_despacho'):
+            self.logger.warning("  ⚠ Aduana sin nr_despacho, saltando.")
+            return False
+        if self._existe('T_ADUANA_DESPACHO', 'nr_despacho', d['nr_despacho']):
+            self.logger.info(f"  ℹ Aduana '{d['nr_despacho']}' ya existe, saltando.")
+            return False
+        self.ejecutar_comando("""
+            INSERT INTO [T_ADUANA_DESPACHO]
+                (nr_despacho, oficializacion, agente_transporte, vendedor,
+                 fecha_arribo, embalaje, total_bultos, peso_bruto,
+                 cond_venta, fob_total, divisa, flete_total,
+                 info_complementaria, fecha_carga, archivo_origen)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, (
+            d['nr_despacho'],        d['oficializacion'],
+            d['agente_transporte'],  d['vendedor'],
+            d['fecha_arribo'],       d['embalaje'],
+            _safe_int(d['total_bultos']),
+            _safe_float(d['peso_bruto']),
+            d['cond_venta'],
+            _safe_float(d['fob_total']),
+            d['divisa'],
+            _safe_float(d['flete_total']),
+            d['info_complementaria'],
+            d['fecha_carga'],        d['archivo_origen'],
+        ))
+        self.logger.info(f"  ✔ Aduana '{d['nr_despacho']}' insertada.")
+        return True
 
     def enlazar_documentos(self):
         """

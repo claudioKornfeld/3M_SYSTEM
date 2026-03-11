@@ -26,6 +26,159 @@ def _extract_text(filepath: str) -> str:
     return "\n".join(pages)
 
 
+def _extract_detail_lines_by_coords(filepath: str) -> list:
+    """
+    Extrae lineas de detalle usando coordenadas de palabras.
+    El PDF de confirmacion de PO tiene dos columnas:
+      - Columna izquierda  (x < COL_SPLIT): nro de linea + descripcion
+      - Columna derecha    (x >= COL_SPLIT): Your Catalog / 3M Catalog / Stock / UPC / qty / precio / total
+    Todas las paginas de detalle se unifican en un unico espacio de coordenadas
+    sumando el offset Y acumulado, para manejar bloques cortados entre paginas.
+    """
+    COL_SPLIT = 185
+
+    detail_lines = []
+
+    with pdfplumber.open(filepath) as pdf:
+        all_left  = []
+        all_right = []
+        y_offset  = 0.0
+
+        for page in pdf.pages[1:]:
+            words = page.extract_words()
+            if not words:
+                y_offset += page.height
+                continue
+            for w in words:
+                y = float(w['top']) + y_offset
+                entry = dict(w, top=y)
+                if w['x0'] < COL_SPLIT:
+                    all_left.append(entry)
+                else:
+                    all_right.append(entry)
+            y_offset += page.height
+
+        product_starts = []
+        for w in all_left:
+            if re.match(r'^\d{1,2}$', w['text']) and w['x0'] < 40:
+                product_starts.append((int(w['text']), float(w['top'])))
+
+        if not product_starts:
+            return detail_lines
+
+        subtotal_words = [w for w in all_left if w['text'].startswith('Subtotal')]
+        y_footer = float(subtotal_words[0]['top']) if subtotal_words else 9999
+
+        for idx, (linea_num, y_start) in enumerate(product_starts):
+            y_end = min(
+                product_starts[idx + 1][1] if idx + 1 < len(product_starts) else 9999,
+                y_footer
+            )
+
+            desc_words = [
+                w for w in all_left
+                if y_start <= w['top'] < y_end
+                and not re.match(r'^\d{1,2}$', w['text'])
+            ]
+            descripcion = " ".join(
+                w['text'] for w in sorted(desc_words, key=lambda w: (w['top'], w['x0']))
+            )
+
+            data_words = [w for w in all_right if y_start <= w['top'] < y_end]
+            data_lines_raw = {}
+            for w in data_words:
+                y_key = round(w['top'] / 3) * 3
+                data_lines_raw.setdefault(y_key, []).append(w)
+            data_lines_text = [
+                " ".join(w['text'] for w in sorted(data_lines_raw[yk], key=lambda w: w['x0']))
+                for yk in sorted(data_lines_raw)
+            ]
+
+            cat_3m   = None
+            stock_3m = None
+            upc      = None
+            contrato = None
+            qty      = None
+            unidad   = "Each"
+            precio   = None
+            total    = None
+            upc_next = False
+
+            for i, line in enumerate(data_lines_text):
+                line_s = line.strip()
+
+                if upc_next:
+                    if re.match(r'^\d{10,}$', line_s):
+                        upc = line_s
+                    upc_next = False
+                    continue
+
+                if re.match(r'^UPC#:$', line_s):
+                    upc_next = True
+                    continue
+                m = re.search(r'UPC#:\s*(\d+)', line_s)
+                if m:
+                    upc = m.group(1)
+                    continue
+
+                m = re.search(
+                    r'(\d+)\s+(Kit|Each|BX|CS|PK|DZ)\s+\$\s*([\d,\.]+)\s+per\s+(?:Kit|Each|BX|CS|PK|DZ)\s+\$\s*([\d,\.]+)',
+                    line_s
+                )
+                if m:
+                    qty = _num(m.group(1)); unidad = m.group(2)
+                    precio = _num(m.group(3)); total = _num(m.group(4))
+                    continue
+                m = re.search(
+                    r'(\d+)\s+(Kit|Each|BX|CS|PK|DZ)\s+\$\s*([\d,\.]+)\s+per\s+\$\s*([\d,\.]+)',
+                    line_s
+                )
+                if m:
+                    qty = _num(m.group(1)); unidad = m.group(2)
+                    precio = _num(m.group(3)); total = _num(m.group(4))
+                    continue
+
+                # 3M Catalog Number — el valor siempre está en la linea siguiente (nunca inline fiable)
+                # porque pdfplumber mezcla "Each" de la columna de qty en esa misma fila.
+                if re.search(r'3M Catalog\s+Number:', line_s):
+                    if i + 1 < len(data_lines_text):
+                        nxt = data_lines_text[i + 1].strip()
+                        # Aceptar: alfanumérico corto, no una palabra clave del PDF
+                        if re.match(r'^[\w]{1,10}$', nxt) and not re.search(
+                            r'^(3M|Stock|Number|UPC|Each|Kit|BX|CS|PK|DZ|Your|Catalog|Per)$', nxt, re.I
+                        ):
+                            cat_3m = nxt
+                    continue
+
+                m = re.search(r'Number:\s*(\d{10})', line_s)
+                if m:
+                    stock_3m = m.group(1)
+                    continue
+
+                m = re.search(r'Contract #:\s*(\S+)', line_s)
+                if m:
+                    contrato = m.group(1)
+                    continue
+
+            if qty is None and precio is None:
+                continue
+
+            detail_lines.append({
+                "linea":       linea_num,
+                "catalog_3m":  cat_3m,
+                "stock_3m":    stock_3m,
+                "upc":         upc,
+                "descripcion": descripcion.strip(),
+                "cantidad":    qty,
+                "unidad":      unidad,
+                "precio_unit": precio,
+                "total_linea": total,
+                "contrato":    contrato,
+            })
+
+    return detail_lines
+
+
 def parse_po(filepath: str) -> dict:
     """
     Parsea la confirmación de PO de 3M (email convertido a PDF).
@@ -51,8 +204,6 @@ def parse_po(filepath: str) -> dict:
         "archivo_origen":     os.path.basename(filepath),
     }
 
-    detail_lines = []
-
     def _find(pattern, default=None):
         m = re.search(pattern, text, re.IGNORECASE | re.MULTILINE | re.DOTALL)
         return _clean(m.group(1)) if m else default
@@ -72,129 +223,71 @@ def parse_po(filepath: str) -> dict:
         header["order_date"] = _find(r'(?:Sent|Date):\s*([^\n]+)')
 
     # --- Delivery ---
-    header["delivery_method"]    = _find(r'Delivery Method\s+([^\n]+?)(?:\n|Attention)')
+    header["delivery_method"]    = _find(r'Delivery Method\s+(.+?)(?:\s+Requested Delivery:|\n)')
     header["requested_delivery"] = _find(r'Requested Delivery:\s*([\d/]+)')
     header["ultimate_country"]   = _find(r'Country\s+([A-Za-z]+)')
-    header["payment_method"]     = _find(r'Order Payment Method\s+([^\n]+?)(?:\n|Purchase)')
+    header["payment_method"]     = _find(r'Order Payment Method\s+([^\n]+?)(?:\s+Purchase|\n)')
 
-    # --- Sold-to ---
-    m = re.search(
-        r'Sold-to Address:\s*\n([^\n]+)\n(\d+)\n([^\n]+)\n([^\n]+)\n([^\n]+)',
-        text, re.IGNORECASE
-    )
-    if m:
-        header["sold_to_name"]    = _clean(m.group(3))
-        header["sold_to_account"] = _clean(m.group(2))
-        header["sold_to_address"] = _clean(m.group(4)) + " | " + _clean(m.group(5))
+    # --- Sold-to y Ship-to: usar coordenadas (layout de 2 columnas en pág. 1) ---
+    with pdfplumber.open(filepath) as _pdf:
+        _page1 = _pdf.pages[0]
+        _words = _page1.extract_words()
+        _COL   = 300   # separación sold-to (izq) / ship-to (der)
 
-    # --- Ship-to ---
-    m = re.search(
-        r'Ship-to Address:\s*\n(\d+)\n([^\n]+)\n([^\n]+)\n([^\n]+)\n([^\n]+)',
-        text, re.IGNORECASE
-    )
-    if m:
-        header["ship_to_account"] = _clean(m.group(1))
-        header["ship_to_name"]    = _clean(m.group(2)) + " / " + _clean(m.group(3))
-        header["ship_to_address"] = _clean(m.group(4)) + " | " + _clean(m.group(5))
+        # Encontrar y_start de cada bloque de direcciones
+        _sold_y = next((float(w['top']) for w in _words if w['text'] == 'Sold-to'), None)
+        _ship_y = next((float(w['top']) for w in _words if w['text'] == 'Ship-to'), None)
+        _ship_section_y = next((float(w['top']) for w in _words if w['text'] == 'Shipping'), 9999)
+
+        def _addr_lines(x_min, x_max, y_min, y_max):
+            """Agrupa palabras en líneas de texto dentro de una región."""
+            region = [w for w in _words
+                      if x_min <= w['x0'] < x_max
+                      and y_min <= float(w['top']) < y_max]
+            rows = {}
+            for w in region:
+                y_key = round(float(w['top']) / 3) * 3
+                rows.setdefault(y_key, []).append(w)
+            return [
+                " ".join(w['text'] for w in sorted(rows[yk], key=lambda w: w['x0']))
+                for yk in sorted(rows)
+            ]
+
+        if _sold_y:
+            lines = _addr_lines(0, _COL, _sold_y + 5, _ship_section_y)
+            # lines: [supplier_name, account_num, customer_name, address1, city_zip]
+            # Ejemplo: ['Solventum Export United States', '16258871', 'LILIS SA', '2302 AVENIDA CORDOBA PASTEUR 796', 'CABA, null', 'C1028AAP']
+            nums = [l for l in lines if re.match(r'^\d+$', l.strip())]
+            if nums:
+                header["sold_to_account"] = nums[0]
+            # Nombre del cliente = primera línea que no sea la del proveedor ni un número
+            name_lines = [l for l in lines if not re.match(r'^\d+$', l.strip())
+                          and 'Solventum' not in l]
+            if name_lines:
+                header["sold_to_name"] = name_lines[0]
+            if len(name_lines) > 1:
+                header["sold_to_address"] = " | ".join(name_lines[1:])
+
+        if _ship_y:
+            lines = _addr_lines(_COL, 9999, _ship_y + 5, _ship_section_y)
+            nums = [l for l in lines if re.match(r'^\d+$', l.strip())]
+            if nums:
+                header["ship_to_account"] = nums[0]
+            name_lines = [l for l in lines if not re.match(r'^\d+$', l.strip())]
+            if len(name_lines) >= 2:
+                header["ship_to_name"] = name_lines[0] + " / " + name_lines[1]
+            if len(name_lines) > 2:
+                header["ship_to_address"] = " | ".join(name_lines[2:])
 
     # --- Subtotal ---
     sub = _find(r'(?:Subtotal|Order Total):\s*\$?\s*([\d,\.]+)')
     header["subtotal"] = _num(sub) if sub else 0.0
 
     # --- Líneas de detalle ---
-    # Patrón en el texto del email:
-    # <linea_num>
-    # 3M™ Littmann® ... descripción ...
-    # Contract #: CXXXXX
-    # Your Catalog Number:
-    # 3M Catalog Number: XXXX
-    # 3M Stock Number: XXXXXXXXXX
-    # UPC#: XXXXXXXXXXXXXXX
-    # <qty> Each $ <precio> per Each $ <total>
-
-    # Dividir el texto en bloques por número de línea
-    # Los números de línea en PO son enteros simples (1,2,3...)
-    line_block_pattern = re.compile(
-        r'^\s*(\d{1,2})\s*\n'              # Número de línea
-        r'(3M™.+?)\n'                       # Descripción (primera línea)
-        r'(.*?)'                            # resto del bloque
-        r'(\d+)\s+Each\s+\$\s*([\d,\.]+)\s+per\s+Each\s+\$\s*([\d,\.]+)',
-        re.MULTILINE | re.DOTALL
-    )
-
-    for m in line_block_pattern.finditer(text):
-        linea   = int(m.group(1))
-        desc1   = _clean(m.group(2))
-        middle  = m.group(3)
-        qty     = _num(m.group(4))
-        precio  = _num(m.group(5))
-        total   = _num(m.group(6))
-
-        # Extraer datos del bloque intermedio
-        cat_3m  = None
-        stock_3m = None
-        upc     = None
-        contrato = None
-
-        for bl in middle.splitlines():
-            bl = bl.strip()
-            cm = re.search(r'3M Catalog\s+Number:\s*(\S+)', bl)
-            if cm:
-                cat_3m = cm.group(1)
-            sm = re.search(r'3M Stock\s+Number:\s*(\d+)', bl)
-            if sm:
-                stock_3m = sm.group(1)
-            um = re.search(r'UPC#:\s*(\d+)', bl)
-            if um:
-                upc = um.group(1)
-            co = re.search(r'Contract #:\s*(\S+)', bl)
-            if co:
-                contrato = co.group(1)
-
-        # Juntar descripción completa
-        desc_lines = [desc1]
-        for bl in middle.splitlines():
-            bl = bl.strip()
-            if bl and not any(bl.startswith(x) for x in [
-                "Contract", "Your Catalog", "3M Catalog", "3M Stock", "UPC#"
-            ]):
-                if "Each/Case" in bl or "inch" in bl:
-                    desc_lines.append(bl)
-
-        descripcion = " ".join(desc_lines).strip()
-
-        detail_lines.append({
-            "linea":       linea,
-            "catalog_3m":  cat_3m,
-            "stock_3m":    stock_3m,
-            "upc":         upc,
-            "descripcion": descripcion,
-            "cantidad":    qty,
-            "unidad":      "Each",
-            "precio_unit": precio,
-            "total_linea": total,
-            "contrato":    contrato,
-        })
-
-    # Fallback si no encontró líneas con el patrón complejo
-    if not detail_lines:
-        # Patrón más simple
-        simple_pattern = re.compile(
-            r'(\d{1,2})\s+3M™([^\n]+)\n'
-        )
-        for m in simple_pattern.finditer(text):
-            detail_lines.append({
-                "linea":       int(m.group(1)),
-                "catalog_3m":  None,
-                "stock_3m":    None,
-                "upc":         None,
-                "descripcion": "3M™" + m.group(2).strip(),
-                "cantidad":    None,
-                "unidad":      "Each",
-                "precio_unit": None,
-                "total_linea": None,
-                "contrato":    None,
-            })
+    # El PDF de confirmación de PO tiene layout de 2 columnas en la página de detalle.
+    # pdfplumber mezcla las columnas al extraer texto plano, por lo que se usa
+    # extracción por coordenadas de palabras (_extract_detail_lines_by_coords).
+    detail_lines = _extract_detail_lines_by_coords(filepath)
 
     print(f"[PO] {header['po_number']} | Subtotal: {header['subtotal']} | "
           f"Líneas: {len(detail_lines)}")

@@ -8,6 +8,7 @@
 #   python main.py --invoice Invoice.pdf      # Carga Invoice
 #   python main.py --plist Packing_List.pdf   # Carga Packing List
 #   python main.py --po PO.pdf                # Carga PO
+#   python main.py --aduana Despacho.pdf        # Carga Despacho de Aduana
 #   python main.py --all --dir ./input        # Carga todo lo que haya en carpeta
 #   python main.py --report                   # Resumen de tablas
 #   python main.py --link                     # Re-enlazar documentos
@@ -22,6 +23,7 @@ from parser_firex   import parse_firex
 from parser_invoice import parse_invoice
 from parser_plist   import parse_plist
 from parser_po      import parse_po
+from parser_aduana  import parse_aduana
 
 
 # ---------------------------------------------------------------------------
@@ -73,6 +75,10 @@ class _SQLiteBackend:
     def load_po(self, parsed):
         from parser_po import load_po_to_db
         load_po_to_db(self.conn, parsed)
+
+    def load_aduana(self, parsed):
+        from parser_aduana import load_aduana_to_db
+        load_aduana_to_db(self.conn, parsed)
 
     def link_documents(self):
         cur = self.conn.cursor()
@@ -138,6 +144,7 @@ class _SQLiteBackend:
             "T_3M_PLIST_HEADER", "T_3M_PLIST_DETAIL",
             "T_GECOM_FI", "T_GECOM_FI_DETAIL",
             "T_GECOM_RE", "T_GECOM_RE_DETAIL",
+            "T_ADUANA_DESPACHO",
         ]
         print("\n" + "=" * 60)
         print("  RESUMEN  —  3M_SYSTEM (SQLite dev)")
@@ -197,6 +204,10 @@ class _AccessBackend:
             self.ac.insertar_po_detail(h["po_number"], parsed["lines"])
             print(f"[PO→Access] '{h['po_number']}' cargada: {len(parsed['lines'])} líneas.")
 
+    def load_aduana(self, parsed):
+        if self.ac.insertar_aduana(parsed):
+            print(f"[Aduana→Access] {parsed['nr_despacho']} cargada.")
+
     def link_documents(self):
         self.ac.enlazar_documentos()
 
@@ -231,6 +242,9 @@ def _process_dir(backend, directory):
             elif "po" in fl or "order" in fl:
                 data = parse_po(fpath)
                 backend.load_po(data)
+            elif "aduana" in fl or "ic04" in fl or "despacho" in fl:
+                data = parse_aduana(fpath)
+                backend.load_aduana(data)
 
 
 # ---------------------------------------------------------------------------
@@ -246,6 +260,7 @@ def main():
     parser.add_argument("--invoice", metavar="FILE",      help="Cargar Invoice PDF")
     parser.add_argument("--plist",   metavar="FILE",      help="Cargar Packing List PDF")
     parser.add_argument("--po",      metavar="FILE",      help="Cargar PO PDF")
+    parser.add_argument("--aduana",  metavar="FILE",      help="Cargar Despacho de Aduana PDF")
     parser.add_argument("--all",     action="store_true", help="Cargar todo en --dir")
     parser.add_argument("--dir",     metavar="DIR",       default="./input")
     parser.add_argument("--report",  action="store_true", help="Mostrar resumen de tablas")
@@ -274,11 +289,15 @@ def main():
             data = parse_po(args.po)
             backend.load_po(data)
 
+        if args.aduana:
+            data = parse_aduana(args.aduana)
+            backend.load_aduana(data)
+
         if args.all:
             _process_dir(backend, args.dir)
 
         # Enlazar siempre después de una carga
-        if any([args.firex, args.invoice, args.plist, args.po, args.all]):
+        if any([args.firex, args.invoice, args.plist, args.po, args.aduana, args.all]):
             backend.link_documents()
 
         if args.link:

@@ -141,6 +141,7 @@ class App(tk.Tk):
             ("🧾  Cargar Invoice PDF",      self.load_invoice),
             ("📦  Cargar Packing List PDF", self.load_plist),
             ("📋  Cargar PO PDF",           self.load_po),
+            ("🛃  Cargar Despacho Aduana",  self.load_aduana),
         ]
         for label, cmd in btns:
             make_btn(left, label, cmd).pack(fill="x", pady=3)
@@ -209,6 +210,11 @@ class App(tk.Tk):
         f = pick_file("Seleccionar PO PDF", [("Archivos PDF", "*.pdf"), ("Todos", "*.*")])
         if f:
             run_cmd([PYTHON, MAIN_PY, "--po", f], self.log)
+
+    def load_aduana(self):
+        f = pick_file("Seleccionar Despacho de Aduana PDF", [("Archivos PDF", "*.pdf"), ("Todos", "*.*")])
+        if f:
+            run_cmd([PYTHON, MAIN_PY, "--aduana", f], self.log)
 
     def run_report(self):
         run_cmd([PYTHON, MAIN_PY, "--report"], self.log)
